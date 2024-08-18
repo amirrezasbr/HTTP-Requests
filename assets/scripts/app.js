@@ -5,25 +5,25 @@ const fetchButton = document.querySelector("#available-posts button");
 const postList = document.querySelector("ul");
 
 function sendHttpRequest(method, url, data) {
-  const promise = new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open(method, url);
-
-    xhr.onload = function () {
-      if (xhr.status >= 200 && xhr.status < 300) {
-        resolve(xhr.response);
-      } else {
-        reject(new Error("Something went wrong!"));
-      }
-    };
-    xhr.onerror = function () {
-      reject(new Error("Failed to send request"));
-    };
-
-    xhr.send(JSON.stringify(data));
+  // const promise = new Promise((resolve, reject) => {
+  // const xhr = new XMLHttpRequest();
+  // xhr.open(method, url);
+  // xhr.onload = function () {
+  //   if (xhr.status >= 200 && xhr.status < 300) {
+  //     resolve(xhr.response);
+  //   } else {
+  //     reject(new Error("Something went wrong!"));
+  //   }
+  // };
+  // xhr.onerror = function () {
+  //   reject(new Error("Failed to send request"));
+  // };
+  // xhr.send(JSON.stringify(data));
+  // });
+  // return promise;
+  return fetch(url).then((response) => {
+    return response.json();
   });
-
-  return promise;
 }
 
 async function fetchPosts() {
