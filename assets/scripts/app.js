@@ -23,10 +23,11 @@ function sendHttpRequest(method, url, data) {
   // return promise;
   return fetch(url, {
     method: method,
-    body: JSON.stringify(data),
-    headers: {
-      "Content-type": "application/json",
-    },
+    body: data,
+    //  JSON.stringify(data),
+    // headers: {
+    //   "Content-type": "application/json",
+    // },
   })
     .then((response) => {
       if (response.status >= 200 && response.status < 300) {
@@ -66,12 +67,19 @@ async function fetchPosts() {
 
 async function createPost(title, content) {
   const userId = Math.random();
-  const post = {
-    title,
-    body: content,
-    userId,
-  };
-  sendHttpRequest("POST", "https://jsonplaceholder.typicode.com/posts", post);
+  // const post = {
+  //   title,
+  //   body: content,
+  //   userId,
+  // };
+
+  const fd = new FormData(form);
+  // fd.append("title", title);
+  // fd.append("body", content);
+  fd.append("userId", userId);
+
+  // sendHttpRequest("POST", "https://jsonplaceholder.typicode.com/posts", post);
+  sendHttpRequest("POST", "https://jsonplaceholder.typicode.com/posts", fd);
 }
 
 fetchButton.addEventListener("click", fetchPosts);
