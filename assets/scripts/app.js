@@ -1,12 +1,28 @@
-const xhr = new XMLHttpRequest();
 const listElement = document.querySelector(".posts");
 const postTemplate = document.getElementById("single-post");
 
-xhr.open("GET", "https://jsonplaceholder.typicode.com/posts");
+function sendHttpRequest(method, url) {
+  const promise = new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, url);
 
-xhr.onload = function () {
-  const listOfPosts = JSON.parse(xhr.response);
+    xhr.onload = function () {
+      // const listOfPosts = JSON.parse(xhr.response);
+      resolve(xhr.response);
+    };
 
+    xhr.send();
+  });
+
+  return promise;
+}
+
+async function fetchPosts() {
+  const responseData = await sendHttpRequest(
+    "GET",
+    "https://jsonplaceholder.typicode.com/posts"
+  );
+  const listOfPosts = JSON.parse(responseData);
   for (const post of listOfPosts) {
     const postEl = document.importNode(postTemplate.content, true);
     console.log("test", postEl, postTemplate);
@@ -14,6 +30,6 @@ xhr.onload = function () {
     postEl.querySelector("p").textContent = post.body;
     listElement.append(postEl);
   }
-};
+}
 
-xhr.send();
+fetchPosts();
